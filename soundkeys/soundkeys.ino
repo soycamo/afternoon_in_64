@@ -23,7 +23,7 @@ void loop()
 
   if (digitalRead(ON_SWITCH) == 1) {
     digitalWrite(BOARD_LED, HIGH);
-    Keyboard.press(dpad[(analogRead(MIC_L) % 4)]);
+    Keyboard.press(dpad[(analogRead(MIC_L) + analogRead(MIC_R) % 4)]);
   }
   else {
     digitalWrite(BOARD_LED, LOW);

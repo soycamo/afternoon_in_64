@@ -20,8 +20,10 @@ chr_asset = import_chr('dance.chr')
 
 secretary = define_sprite(100,90, [59,60,61,62,63,64], 0)
 butchie = define_sprite(120,90, [144,145,146,147,148,149], 0)
+#fluff = define_sprite(10,10, [154,83,153,155,156], 1)
+star = define_sprite(0,0, [168,169, 170, 171], 0)
 
-#firebutchie = define_sprite(164,128, [0, 1, 2, 3, 4, 5, 6, 7], 0)
+#fluff_x = rs(1)
 
 def reset():
     wait_vblank()
@@ -29,9 +31,9 @@ def reset():
     wait_vblank()
     load_palette(palette)
     # When a sprite is set to 0, you can only set 4 tiles as a sprite. Go figure!
+    load_sprite(star, 0)
     load_sprite(secretary, 4)
     load_sprite(butchie, 12)
-#    load_sprite(firebutchie, 12)
 
 def joypad1_up():
     get_sprite(secretary).y += 1
@@ -49,5 +51,15 @@ def joypad1_right():
     get_sprite(secretary).x += 1
     get_sprite(butchie).x -= 1
 
-#def joypad1_a():
-    #load_palette(altpalette)
+def joypad1_a():
+    get_sprite(star).y += 11
+
+def joypad1_b():
+    get_sprite(star).x -= 11
+
+def joypad1_select():
+    get_sprite(star).x += 22
+
+#def nmi():
+#    if star_x > 200:
+#        star_x = 0

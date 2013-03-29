@@ -23,6 +23,7 @@ int micLread, micRread;
 void loop()
 {
 
+  // This should be moved to an interrupt
   if (digitalRead(ON_SWITCH) == 1) {
     digitalWrite(BOARD_LED, HIGH);
     for(int i = 0; i < sizeof(dpad); i++) {
@@ -55,12 +56,16 @@ void press_mod_btn(int mic){
 }
 
 void press_ab_btn(int mic){
-  if (mic % 2) {
+  int dice = mic % 3;
+  switch (dice) {
+  case 1:
     Keyboard.release(b_btn);
     Keyboard.press(a_btn);
-  }
-  else {
+  case 2:
     Keyboard.release(a_btn);
+    Keyboard.press(b_btn);
+  default:
+    Keyboard.press(a_btn);
     Keyboard.press(b_btn);
   }
 

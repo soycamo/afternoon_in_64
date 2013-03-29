@@ -1,20 +1,33 @@
-#include <Esplora.h>
+#define MIC_L A0
+#define MIC_R A5
+#define ON_SWITCH 12
+#define BOARD_LED 13
 
 void setup()
 {
-  Keyboard.begin();
+  ADMUX |= (1 << REFS1) | (1 << REFS0);
+  analogReference(INTERNAL);
+  Serial.begin(9600);
+  //Keyboard.begin();
+  pinMode(MIC_L, INPUT);
+  pinMode(MIC_R, INPUT);
+  pinMode(ON_SWITCH, INPUT);
+  pinMode(BOARD_LED, OUTPUT);
 }
 
 char dpad[] = {'w','a', 's', 'd'};
 
 void loop()
 {
-  // Preventing accidental keypresses
-  if(Esplora.readSlider() == 0) {
-    for(int i = 0; i < sizeof(dpad); i++) {
-      Keyboard.press(dpad[i]);
-      delay(1000);
-      Keyboard.releaseAll();
-    }
+  Keyboard.releaseAll();
+
+  if (digitalRead(ON_SWITCH) == 1) {
+    digitalWrite(BOARD_LED, HIGH);
+    Keyboard.press(dpad[(analogRead(MIC_L) % 4)]);
   }
+  else {
+    digitalWrite(BOARD_LED, LOW);
+  }
+
+  delay(500);
 }
